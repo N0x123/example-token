@@ -1,8 +1,244 @@
-//      ██████      ███ ██████ ███████████ ███      ███
-//    ███    ███        ██         ███     ███      ███
-//   ███      ███   ███ ██████     ███     ████████████
-//  ███ ██████ ███  ███ ██         ███     ███      ███
-// ███          ███ ███ ██████     ███     ███      ███
+// File: aieth/uniswap/IUniswapV2Factory.sol
+
+//SPDX-License-Identifier: UNLICENSED
+
+pragma solidity >=0.5.0;
+
+interface IUniswapV2Factory {
+    event PairCreated(
+        address indexed token0,
+        address indexed token1,
+        address pair,
+        uint
+    );
+
+    function feeTo() external view returns (address);
+
+    function feeToSetter() external view returns (address);
+
+    function getPair(
+        address tokenA,
+        address tokenB
+    ) external view returns (address pair);
+
+    function allPairs(uint) external view returns (address pair);
+
+    function allPairsLength() external view returns (uint);
+
+    function createPair(
+        address tokenA,
+        address tokenB
+    ) external returns (address pair);
+
+    function setFeeTo(address) external;
+
+    function setFeeToSetter(address) external;
+}
+// File: aieth/uniswap/IUniswapV2Router01.sol
+
+//SPDX-License-Identifier: UNLICENSED
+pragma solidity >=0.6.2;
+
+interface IUniswapV2Router01 {
+    function factory() external pure returns (address);
+
+    function WETH() external pure returns (address);
+
+    function addLiquidity(
+        address tokenA,
+        address tokenB,
+        uint amountADesired,
+        uint amountBDesired,
+        uint amountAMin,
+        uint amountBMin,
+        address to,
+        uint deadline
+    ) external returns (uint amountA, uint amountB, uint liquidity);
+
+    function addLiquidityETH(
+        address token,
+        uint amountTokenDesired,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline
+    )
+        external
+        payable
+        returns (uint amountToken, uint amountETH, uint liquidity);
+
+    function removeLiquidity(
+        address tokenA,
+        address tokenB,
+        uint liquidity,
+        uint amountAMin,
+        uint amountBMin,
+        address to,
+        uint deadline
+    ) external returns (uint amountA, uint amountB);
+
+    function removeLiquidityETH(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline
+    ) external returns (uint amountToken, uint amountETH);
+
+    function removeLiquidityWithPermit(
+        address tokenA,
+        address tokenB,
+        uint liquidity,
+        uint amountAMin,
+        uint amountBMin,
+        address to,
+        uint deadline,
+        bool approveMax,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external returns (uint amountA, uint amountB);
+
+    function removeLiquidityETHWithPermit(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline,
+        bool approveMax,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external returns (uint amountToken, uint amountETH);
+
+    function swapExactTokensForTokens(
+        uint amountIn,
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external returns (uint[] memory amounts);
+
+    function swapTokensForExactTokens(
+        uint amountOut,
+        uint amountInMax,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external returns (uint[] memory amounts);
+
+    function swapExactETHForTokens(
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external payable returns (uint[] memory amounts);
+
+    function swapTokensForExactETH(
+        uint amountOut,
+        uint amountInMax,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external returns (uint[] memory amounts);
+
+    function swapExactTokensForETH(
+        uint amountIn,
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external returns (uint[] memory amounts);
+
+    function swapETHForExactTokens(
+        uint amountOut,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external payable returns (uint[] memory amounts);
+
+    function quote(
+        uint amountA,
+        uint reserveA,
+        uint reserveB
+    ) external pure returns (uint amountB);
+
+    function getAmountOut(
+        uint amountIn,
+        uint reserveIn,
+        uint reserveOut
+    ) external pure returns (uint amountOut);
+
+    function getAmountIn(
+        uint amountOut,
+        uint reserveIn,
+        uint reserveOut
+    ) external pure returns (uint amountIn);
+
+    function getAmountsOut(
+        uint amountIn,
+        address[] calldata path
+    ) external view returns (uint[] memory amounts);
+
+    function getAmountsIn(
+        uint amountOut,
+        address[] calldata path
+    ) external view returns (uint[] memory amounts);
+}
+// File: aieth/uniswap/IUniswapV2Router02.sol
+
+//SPDX-License-Identifier: UNLICENSED
+
+pragma solidity >=0.6.2;
+
+interface IUniswapV2Router02 is IUniswapV2Router01 {
+    function removeLiquidityETHSupportingFeeOnTransferTokens(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline
+    ) external returns (uint amountETH);
+
+    function removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline,
+        bool approveMax,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external returns (uint amountETH);
+
+    function swapExactTokensForTokensSupportingFeeOnTransferTokens(
+        uint amountIn,
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external;
+
+    function swapExactETHForTokensSupportingFeeOnTransferTokens(
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external payable;
+
+    function swapExactTokensForETHSupportingFeeOnTransferTokens(
+        uint amountIn,
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external;
+}
 // File: @openzeppelin/contracts/utils/Nonces.sol
 
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/Nonces.sol)
@@ -2589,7 +2825,11 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
      *
      * NOTE: This function is not virtual, {_update} should be overridden instead.
      */
-    function _transfer(address from, address to, uint256 value) internal {
+    function _transfer(
+        address from,
+        address to,
+        uint256 value
+    ) internal virtual {
         if (from == address(0)) {
             revert ERC20InvalidSender(address(0));
         }
@@ -2915,7 +3155,7 @@ abstract contract ERC20Burnable is Context, ERC20 {
     }
 }
 
-// File: contracts/AIETH.sol
+// File: aieth/AIETH.sol
 
 //      ██████      ███ ██████ ███████████ ███      ███
 //    ███    ███        ██         ███     ███      ███
@@ -2934,26 +3174,60 @@ contract AiEth is
 {
     uint256 public maxSupply;
     uint256 public APR;
-    address public PRESALE_ADDRESS;
     bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
+    bytes32 public constant PRESALE_ROLE = keccak256("PRESALE_ROLE");
+    bytes32 public constant TEAM_ROLE = keccak256("TEAM_ROLE");
     bool private _presaleIsActive = false;
 
-    // Array to store the combination of name, wallet, and percentage for each service
-    struct ServiceInfo {
-        string name;
-        address wallet;
-        uint256 percentage;
-    }
+    // Project Wallets
+    address public constant reserveWallet =
+        address(0x43868b067F57E44FB4a40F84f1681b9eA0ee20A1);
+    uint256 public constant reservePercentage = 40;
 
-    // Defining the services
-    ServiceInfo[] public reserveServices;
-    ServiceInfo[] public airDropServices;
-    ServiceInfo[] public rewardServices;
-    ServiceInfo[] public publicPresaleServices;
-    ServiceInfo[] public privatePresaleServices;
-    ServiceInfo[] public liquidityWarrantyServices;
-    ServiceInfo[] public developmentServices;
-    ServiceInfo[] public marketingServices;
+    address public constant airDropWallet =
+        address(0xdBCa77CAF4E76C4E6B527CCe8480BF2639bd3134);
+    uint256 public constant airDropPercentage = 40;
+
+    address public constant publicPresaleWallet =
+        address(0x9C49484ab6e0fb6d4FBB8dDE48a265301A1F39e9);
+    uint256 public constant publicPresalePercentage = 250;
+
+    address public constant privatePresaleWallet =
+        address(0x56AaecC2CB3657c3373065a21f775B4Da191E22b);
+    uint256 public constant privatePresalePercentage = 25;
+
+    address public constant liquidityWarrantyWallet =
+        address(0xFbbb58F21215989861Db1D88E3d8c69b17836C97);
+    uint256 public constant liquidityWarrantyPercentage = 275;
+
+    address public constant developmentWallet =
+        address(0x1Fb4933b41573972202E2f6D501Ff8d0567257B2);
+    uint256 public constant developmentPercentage = 60;
+
+    address public constant marketingWallet =
+        address(0x79d1116620e7A885edD3c3746D456d7dbcf5cd99);
+    uint256 public constant marketingPercentage = 60;
+
+    address public constant PRESALE_MANAGER =
+        address(0xC89084a00aa94cfe45884E96cFa2A0B7987809B7);
+
+    IUniswapV2Router02 private uniswapV2Router;
+    address public uniswapV2Pair;
+
+    address public constant DEAD_WALLET =
+        address(0x000000000000000000000000000000000000dEaD);
+    address public projectWallet;
+
+    uint16 public buyTax;
+    uint16 public sellTax;
+    uint16 public projectBuyTax;
+    uint16 public projectSellTax;
+
+    bool public takeTax;
+
+    mapping(address => bool) public _isExcludedFromFees;
+
+    mapping(address => bool) public automatedMarketMakerPairs;
 
     constructor(
         uint256 setMaxSupply,
@@ -2961,6 +3235,16 @@ contract AiEth is
     ) ERC20("aiETH", "aiETH") ERC20Permit("aiETH") {
         // Defining Roles
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(PRESALE_ROLE, PRESALE_MANAGER);
+
+        // granted roles from team
+        _grantRole(TEAM_ROLE, reserveWallet);
+        _grantRole(TEAM_ROLE, airDropWallet);
+        _grantRole(TEAM_ROLE, publicPresaleWallet);
+        _grantRole(TEAM_ROLE, privatePresaleWallet);
+        _grantRole(TEAM_ROLE, liquidityWarrantyWallet);
+        _grantRole(TEAM_ROLE, developmentWallet);
+        _grantRole(TEAM_ROLE, marketingWallet);
 
         // Defining the MaxSupply
         maxSupply = setMaxSupply;
@@ -2968,59 +3252,28 @@ contract AiEth is
         //Defining the APR percentage
         APR = setAPR;
 
-        // Setting the name, wallet, and percentage for each service
-        reserveServices.push(
-            ServiceInfo(
-                "Strategic Reserve",
-                0x43868b067F57E44FB4a40F84f1681b9eA0ee20A1,
-                40
-            )
+        // Uniswap Router
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(
+            0xC532a74256D3Db42D0Bf7a0400fEFDbad7694008
         );
-        airDropServices.push(
-            ServiceInfo(
-                "AirDrops and Presale Bonus",
-                0xdBCa77CAF4E76C4E6B527CCe8480BF2639bd3134,
-                40
-            )
-        );
-        rewardServices.push(
-            ServiceInfo("Unminted for Staking LP Rewards", msg.sender, 250)
-        );
-        publicPresaleServices.push(
-            ServiceInfo(
-                "Public Presale",
-                0x9C49484ab6e0fb6d4FBB8dDE48a265301A1F39e9,
-                250
-            )
-        );
-        privatePresaleServices.push(
-            ServiceInfo(
-                "Seed Funding Presale",
-                0x56AaecC2CB3657c3373065a21f775B4Da191E22b,
-                25
-            )
-        );
-        liquidityWarrantyServices.push(
-            ServiceInfo(
-                "Liquidity Warranty for Dexs",
-                0xFbbb58F21215989861Db1D88E3d8c69b17836C97,
-                275
-            )
-        );
-        marketingServices.push(
-            ServiceInfo(
-                "Marketing Fund",
-                0x79d1116620e7A885edD3c3746D456d7dbcf5cd99,
-                60
-            )
-        );
-        developmentServices.push(
-            ServiceInfo(
-                "Development and Security Progress Fund",
-                0x1Fb4933b41573972202E2f6D501Ff8d0567257B2,
-                60
-            )
-        );
+
+        address _uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
+            .createPair(address(this), _uniswapV2Router.WETH());
+
+        uniswapV2Router = _uniswapV2Router;
+        uniswapV2Pair = _uniswapV2Pair;
+
+        buyTax = 1;
+        sellTax = 4;
+        projectBuyTax = 100;
+        projectSellTax = 100;
+        projectWallet = PRESALE_MANAGER;
+        takeTax = false;
+
+        _setAutomatedMarketMakerPair(_uniswapV2Pair, true);
+
+        excludeFromFees(msg.sender, true);
+        excludeFromFees(address(this), true);
 
         // Mint the initial supply
         _initalSupply();
@@ -3036,231 +3289,22 @@ contract AiEth is
 
     // Initial Supply
     function _initalSupply() private {
+        _mint(reserveWallet, (maxSupply * reservePercentage) / 1000);
+        _mint(airDropWallet, (maxSupply * airDropPercentage) / 1000);
         _mint(
-            reserveServices[0].wallet,
-            (maxSupply * reserveServices[0].percentage) / 1000
-        );
-        _mint(
-            airDropServices[0].wallet,
-            (maxSupply * airDropServices[0].percentage) / 1000
+            publicPresaleWallet,
+            (maxSupply * publicPresalePercentage) / 1000
         );
         _mint(
-            publicPresaleServices[0].wallet,
-            (maxSupply * publicPresaleServices[0].percentage) / 1000
+            privatePresaleWallet,
+            (maxSupply * privatePresalePercentage) / 1000
         );
         _mint(
-            privatePresaleServices[0].wallet,
-            (maxSupply * privatePresaleServices[0].percentage) / 1000
+            liquidityWarrantyWallet,
+            (maxSupply * liquidityWarrantyPercentage) / 1000
         );
-        _mint(
-            liquidityWarrantyServices[0].wallet,
-            (maxSupply * liquidityWarrantyServices[0].percentage) / 1000
-        );
-        _mint(
-            marketingServices[0].wallet,
-            (maxSupply * marketingServices[0].percentage) / 1000
-        );
-        _mint(
-            developmentServices[0].wallet,
-            (maxSupply * developmentServices[0].percentage) / 1000
-        );
-    }
-
-    // Functions to update services
-    function updateReserveServices(
-        address wallet,
-        uint256 percentage
-    ) public onlyRole(MANAGER_ROLE) {
-        require(
-            percentage +
-                airDropServices[0].percentage +
-                rewardServices[0].percentage +
-                publicPresaleServices[0].percentage +
-                privatePresaleServices[0].percentage +
-                liquidityWarrantyServices[0].percentage +
-                developmentServices[0].percentage +
-                marketingServices[0].percentage <=
-                1000,
-            "Exceeds maximum percentage"
-        );
-        delete reserveServices;
-        reserveServices.push(
-            ServiceInfo("Strategic Reserve", wallet, percentage)
-        );
-        emit ServiceUpdated("Strategic Reserve", percentage, wallet);
-    }
-
-    function updateAirDropServices(
-        address wallet,
-        uint256 percentage
-    ) public onlyRole(MANAGER_ROLE) {
-        require(
-            reserveServices[0].percentage +
-                percentage +
-                rewardServices[0].percentage +
-                publicPresaleServices[0].percentage +
-                privatePresaleServices[0].percentage +
-                liquidityWarrantyServices[0].percentage +
-                developmentServices[0].percentage +
-                marketingServices[0].percentage <=
-                1000,
-            "Exceeds maximum percentage"
-        );
-        delete airDropServices;
-        airDropServices.push(
-            ServiceInfo("AirDrops and Presale Bonus", wallet, percentage)
-        );
-        emit ServiceUpdated("AirDrops and Presale Bonus", percentage, wallet);
-    }
-
-    function updateRewardServices(
-        address wallet,
-        uint256 percentage
-    ) public onlyRole(MANAGER_ROLE) {
-        require(
-            reserveServices[0].percentage +
-                airDropServices[0].percentage +
-                percentage +
-                publicPresaleServices[0].percentage +
-                privatePresaleServices[0].percentage +
-                liquidityWarrantyServices[0].percentage +
-                developmentServices[0].percentage +
-                marketingServices[0].percentage <=
-                1000,
-            "Exceeds maximum percentage"
-        );
-        delete rewardServices;
-        rewardServices.push(
-            ServiceInfo("Unminted for Staking LP Rewards", wallet, percentage)
-        );
-        emit ServiceUpdated(
-            "Unminted for Staking LP Rewards",
-            percentage,
-            wallet
-        );
-    }
-
-    function updatePublicPresaleServices(
-        address wallet,
-        uint256 percentage
-    ) public onlyRole(MANAGER_ROLE) {
-        require(
-            reserveServices[0].percentage +
-                airDropServices[0].percentage +
-                rewardServices[0].percentage +
-                percentage +
-                privatePresaleServices[0].percentage +
-                liquidityWarrantyServices[0].percentage +
-                developmentServices[0].percentage +
-                marketingServices[0].percentage <=
-                1000,
-            "Exceeds maximum percentage"
-        );
-        delete publicPresaleServices;
-        publicPresaleServices.push(
-            ServiceInfo("Public Presale", wallet, percentage)
-        );
-        emit ServiceUpdated("Public Presale", percentage, wallet);
-    }
-
-    function updatePrivatePresaleServices(
-        address wallet,
-        uint256 percentage
-    ) public onlyRole(MANAGER_ROLE) {
-        require(
-            reserveServices[0].percentage +
-                airDropServices[0].percentage +
-                rewardServices[0].percentage +
-                publicPresaleServices[0].percentage +
-                percentage +
-                liquidityWarrantyServices[0].percentage +
-                developmentServices[0].percentage +
-                marketingServices[0].percentage <=
-                1000,
-            "Exceeds maximum percentage"
-        );
-        delete privatePresaleServices;
-        privatePresaleServices.push(
-            ServiceInfo("Seed Funding Presale", wallet, percentage)
-        );
-        emit ServiceUpdated("Seed Funding Presale", percentage, wallet);
-    }
-
-    function updateLiquidityWarrantyServices(
-        address wallet,
-        uint256 percentage
-    ) public onlyRole(MANAGER_ROLE) {
-        require(
-            reserveServices[0].percentage +
-                airDropServices[0].percentage +
-                rewardServices[0].percentage +
-                publicPresaleServices[0].percentage +
-                privatePresaleServices[0].percentage +
-                percentage +
-                developmentServices[0].percentage +
-                marketingServices[0].percentage <=
-                1000,
-            "Exceeds maximum percentage"
-        );
-        delete liquidityWarrantyServices;
-        liquidityWarrantyServices.push(
-            ServiceInfo("Liquidity Warranty for Dexs", wallet, percentage)
-        );
-        emit ServiceUpdated("Liquidity Warranty for Dexs", percentage, wallet);
-    }
-
-    function updateMarketingService(
-        address wallet,
-        uint256 percentage
-    ) public onlyRole(MANAGER_ROLE) {
-        require(
-            reserveServices[0].percentage +
-                airDropServices[0].percentage +
-                rewardServices[0].percentage +
-                publicPresaleServices[0].percentage +
-                privatePresaleServices[0].percentage +
-                liquidityWarrantyServices[0].percentage +
-                developmentServices[0].percentage +
-                percentage <=
-                1000,
-            "Exceeds maximum percentage"
-        );
-        delete marketingServices;
-        marketingServices.push(
-            ServiceInfo("Marketing Fund", wallet, percentage)
-        );
-        emit ServiceUpdated("Marketing Fund", percentage, wallet);
-    }
-
-    function updateDevelopService(
-        address wallet,
-        uint256 percentage
-    ) public onlyRole(MANAGER_ROLE) {
-        require(
-            reserveServices[0].percentage +
-                airDropServices[0].percentage +
-                rewardServices[0].percentage +
-                publicPresaleServices[0].percentage +
-                privatePresaleServices[0].percentage +
-                liquidityWarrantyServices[0].percentage +
-                percentage +
-                marketingServices[0].percentage <=
-                1000,
-            "Exceeds maximum percentage"
-        );
-        delete developmentServices;
-        developmentServices.push(
-            ServiceInfo(
-                "Development and Security Progress Fund",
-                wallet,
-                percentage
-            )
-        );
-        emit ServiceUpdated(
-            "Development and Security Progress Fund",
-            percentage,
-            wallet
-        );
+        _mint(marketingWallet, (maxSupply * marketingPercentage) / 1000);
+        _mint(developmentWallet, (maxSupply * developmentPercentage) / 1000);
     }
 
     // Update APR
@@ -3300,26 +3344,34 @@ contract AiEth is
         uint256 amount
     ) public override whenNotPaused returns (bool) {
         require(
-            !_presaleIsActive || hasRole(MANAGER_ROLE, msg.sender),
+            !_presaleIsActive || hasRole(TEAM_ROLE, msg.sender),
             "Transfers are paused during pre-sale"
         );
         return super.transfer(to, amount);
     }
 
     // Function to update the pre-sale status
-    function updatePresaleStatus(bool _status) public onlyRole(MANAGER_ROLE) {
+    function updatePresaleStatus(bool _status) public onlyRole(PRESALE_ROLE) {
         _presaleIsActive = _status;
         emit PresaleStatus(_status);
     }
 
     // events
-    event ServiceUpdated(
-        string serviceName,
-        uint256 newPercentage,
-        address newWallet
-    );
     event APRUpdated(string message, uint256 newApr);
     event PresaleStatus(bool status);
+    event UpdateUniswapV2Router(
+        address indexed newAddress,
+        address indexed oldAddress
+    );
+    event ExcludeFromFees(address indexed account, bool isExcluded);
+    event ExcludeMultipleAccountsFromFees(address[] accounts, bool isExcluded);
+    event SetAutomatedMarketMakerPair(address indexed pair, bool indexed value);
+    event SetBuyTax(uint16 indexed _tax);
+    event SetSellTax(uint16 indexed _tax);
+    event SetProjectBuyTax(uint16 indexed _tax);
+    event SetProjectSellTax(uint16 indexed _tax);
+    event SetProjectWallet(address indexed _wallet);
+    event SetTakeTax(bool indexed _value);
 
     // The following functions are overrides required by Solidity.
     function _update(
@@ -3328,5 +3380,173 @@ contract AiEth is
         uint256 value
     ) internal override(ERC20, ERC20Pausable) {
         super._update(from, to, value);
+    }
+
+    // Uniswap logic functions
+
+    function excludeFromFees(
+        address account,
+        bool excluded
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        _isExcludedFromFees[account] = excluded;
+        emit ExcludeFromFees(account, excluded);
+    }
+
+    function excludeMultipleAccountsFromFees(
+        address[] calldata accounts,
+        bool excluded
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        for (uint256 i = 0; i < accounts.length; i++) {
+            _isExcludedFromFees[accounts[i]] = excluded;
+        }
+
+        emit ExcludeMultipleAccountsFromFees(accounts, excluded);
+    }
+
+    function setBuyTax(uint16 _tax) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(_tax < 20);
+        buyTax = _tax;
+
+        emit SetBuyTax(_tax);
+    }
+
+    function setSellTax(uint16 _tax) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(_tax < 20);
+        sellTax = _tax;
+
+        emit SetSellTax(_tax);
+    }
+
+    function setProjectBuyTax(
+        uint16 _tax
+    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(_tax <= 100);
+        projectBuyTax = _tax;
+
+        emit SetProjectBuyTax(_tax);
+    }
+
+    function setProjectSellTax(
+        uint16 _tax
+    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(_tax <= 100);
+        projectSellTax = _tax;
+
+        emit SetProjectSellTax(_tax);
+    }
+
+    function setProjectWallet(
+        address _wallet
+    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        projectWallet = _wallet;
+
+        emit SetProjectWallet(_wallet);
+    }
+
+    function setTakeTax(bool _value) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        takeTax = _value;
+
+        emit SetTakeTax(_value);
+    }
+
+    function setAutomatedMarketMakerPair(
+        address pair,
+        bool value
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(
+            pair != uniswapV2Pair,
+            "The Uniswap pair cannot be removed from automatedMarketMakerPairs"
+        );
+
+        _setAutomatedMarketMakerPair(pair, value);
+    }
+
+    function _setAutomatedMarketMakerPair(address pair, bool value) private {
+        require(
+            automatedMarketMakerPairs[pair] != value,
+            "Automated market maker pair is already set to that value"
+        );
+        automatedMarketMakerPairs[pair] = value;
+
+        emit SetAutomatedMarketMakerPair(pair, value);
+    }
+
+    function isExcludedFromFees(address account) public view returns (bool) {
+        return _isExcludedFromFees[account];
+    }
+
+    // Logic for taxes
+    function _transfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal override {
+        require(
+            !_presaleIsActive || hasRole(TEAM_ROLE, msg.sender),
+            "Transfers are paused during pre-sale"
+        );
+
+        require(from != DEAD_WALLET, "ERC20: transfer from the dead address");
+        if (amount == 0) {
+            super._transfer(from, to, amount);
+            emit Transfer(from, to, amount);
+            return;
+        }
+
+        // Buy & Sell Taxes
+        if (!takeTax) {
+            super._transfer(from, to, amount);
+            emit Transfer(from, to, amount);
+            return;
+        }
+
+        bool _takeTax = true;
+
+        if (_isExcludedFromFees[from] || _isExcludedFromFees[to]) {
+            _takeTax = false;
+        }
+
+        // Buy or Sell
+        if (automatedMarketMakerPairs[from] || automatedMarketMakerPairs[to]) {
+            if (_takeTax) {
+                if (automatedMarketMakerPairs[from]) {
+                    // Buy
+                    uint256 _tax = (amount * buyTax) / 100;
+                    uint256 _projectTax = (_tax * projectBuyTax) / 100;
+                    uint256 _burnTax = _tax - _projectTax;
+                    amount = amount - _tax;
+
+                    super._transfer(from, projectWallet, _projectTax);
+                    emit Transfer(from, projectWallet, _projectTax);
+
+                    super._transfer(from, DEAD_WALLET, _burnTax);
+                    emit Transfer(from, DEAD_WALLET, _burnTax);
+
+                    super._transfer(from, to, amount);
+                    emit Transfer(from, to, amount);
+                } else if (automatedMarketMakerPairs[to]) {
+                    // Sell
+                    uint256 _tax = (amount * sellTax) / 100;
+                    uint256 _projectTax = (_tax * projectSellTax) / 100;
+                    uint256 _burnTax = _tax - _projectTax;
+                    amount = amount - _tax;
+
+                    super._transfer(from, projectWallet, _projectTax);
+                    emit Transfer(from, projectWallet, _projectTax);
+
+                    super._transfer(from, DEAD_WALLET, _burnTax);
+                    emit Transfer(from, DEAD_WALLET, _burnTax);
+
+                    super._transfer(from, to, amount);
+                    emit Transfer(from, to, amount);
+                }
+            } else {
+                super._transfer(from, to, amount);
+                emit Transfer(from, to, amount);
+            }
+        } else {
+            super._transfer(from, to, amount);
+            emit Transfer(from, to, amount);
+        }
     }
 }
