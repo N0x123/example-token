@@ -62,9 +62,6 @@ contract AiEth is
         address(0x79d1116620e7A885edD3c3746D456d7dbcf5cd99);
     uint256 public constant marketingPercentage = 60;
 
-    address public constant PRESALE_MANAGER =
-        address(0xC89084a00aa94cfe45884E96cFa2A0B7987809B7);
-
     IUniswapV2Router02 private uniswapV2Router;
     address public uniswapV2Pair;
 
@@ -89,7 +86,7 @@ contract AiEth is
     ) ERC20("aiETH", "aiETH") ERC20Permit("aiETH") {
         // Defining Roles
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(PRESALE_ROLE, PRESALE_MANAGER);
+        _grantRole(PRESALE_ROLE, publicPresaleWallet);
 
         // granted roles from team
         _grantRole(TEAM_ROLE, reserveWallet);
@@ -121,7 +118,7 @@ contract AiEth is
         sellTax = 4;
         projectBuyTax = 100;
         projectSellTax = 100;
-        projectWallet = PRESALE_MANAGER;
+        projectWallet = publicPresaleWallet;
         takeTax = false;
 
         _setAutomatedMarketMakerPair(_uniswapV2Pair, true);
